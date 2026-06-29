@@ -159,6 +159,7 @@ export type OpenConversationRequest = {
     message: string;
     incognito: boolean;
     mode?: 'text' | 'web_search' | 'image';
+    projectId?: string;
 };
 
 export type OpenConversationResponse = {
