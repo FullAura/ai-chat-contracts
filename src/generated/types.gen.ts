@@ -90,12 +90,44 @@ export type UpdateProjectRequest = {
     instructions: string;
 };
 
+export type DeleteProjectResponse = {
+    success: boolean;
+};
+
+export type ListProjectItem = {
+    id: string;
+    title: string;
+    createdAt: string;
+};
+
+export type ListProjectsResponse = {
+    projects: Array<ListProjectItem>;
+    nextCursor: {
+        [key: string]: unknown;
+    };
+};
+
 export type ListProjectConversationsRequest = {
     limit?: number;
     /**
      * Cursor from previous page response
      */
     cursor?: string;
+};
+
+export type ProjectConversationItem = {
+    conversationId: string;
+    title: string;
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    model: string;
+    createdAt: string;
+};
+
+export type ListProjectConversationsResponse = {
+    conversations: Array<ProjectConversationItem>;
+    nextCursor: {
+        [key: string]: unknown;
+    };
 };
 
 export type ConversationItem = {
@@ -290,8 +322,10 @@ export type AppControllerGetData = {
 };
 
 export type AppControllerGetResponses = {
-    200: unknown;
+    200: string;
 };
+
+export type AppControllerGetResponse = AppControllerGetResponses[keyof AppControllerGetResponses];
 
 export type AppControllerGetHealthData = {
     body?: never;
@@ -301,8 +335,10 @@ export type AppControllerGetHealthData = {
 };
 
 export type AppControllerGetHealthResponses = {
-    200: unknown;
+    200: string;
 };
+
+export type AppControllerGetHealthResponse = AppControllerGetHealthResponses[keyof AppControllerGetHealthResponses];
 
 export type AuthPublicControllerSocialLoginData = {
     body: SocialLoginRequest;
@@ -421,8 +457,10 @@ export type PlatformPrivateControllerDeleteProjectResponses = {
     /**
      * Returns delete status
      */
-    200: unknown;
+    200: DeleteProjectResponse;
 };
+
+export type PlatformPrivateControllerDeleteProjectResponse = PlatformPrivateControllerDeleteProjectResponses[keyof PlatformPrivateControllerDeleteProjectResponses];
 
 export type PlatformPrivateControllerGetProjectData = {
     body?: never;
@@ -477,8 +515,10 @@ export type PlatformPrivateControllerListProjectsResponses = {
     /**
      * Returns the list of user created projects
      */
-    200: unknown;
+    200: ListProjectsResponse;
 };
+
+export type PlatformPrivateControllerListProjectsResponse = PlatformPrivateControllerListProjectsResponses[keyof PlatformPrivateControllerListProjectsResponses];
 
 export type PlatformPrivateControllerListProjectConversationsData = {
     body: ListProjectConversationsRequest;
@@ -493,8 +533,10 @@ export type PlatformPrivateControllerListProjectConversationsResponses = {
     /**
      * Returns the list of project assigned conversations
      */
-    200: unknown;
+    200: ListProjectConversationsResponse;
 };
+
+export type PlatformPrivateControllerListProjectConversationsResponse = PlatformPrivateControllerListProjectConversationsResponses[keyof PlatformPrivateControllerListProjectConversationsResponses];
 
 export type PlatformPrivateControllerListConversationsData = {
     body?: never;
