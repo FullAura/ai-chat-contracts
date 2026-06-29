@@ -1,0 +1,32 @@
+{
+  "name": "@ai-chat/contracts",
+  "version": "0.0.1",
+  "description": "Shared API request/response types for the AI Chat platform",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build",
+    "preversion": "npm run build",
+    "release": "npm run release:patch",
+    "release:patch": "npm version patch -m \"release: v%s\" && git push --follow-tags",
+    "release:minor": "npm version minor -m \"release: v%s\" && git push --follow-tags",
+    "release:major": "npm version major -m \"release: v%s\" && git push --follow-tags"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
