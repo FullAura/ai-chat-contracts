@@ -121,6 +121,9 @@ export type ProjectConversationItem = {
     platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
     model: string;
     createdAt: string;
+    projectId: {
+        [key: string]: unknown;
+    };
 };
 
 export type ListProjectConversationsResponse = {
