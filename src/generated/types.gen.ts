@@ -66,9 +66,7 @@ export type ListImagesResponse = {
     /**
      * Pass this cursor to fetch the next page. Null when no more pages.
      */
-    nextCursor?: {
-        [key: string]: unknown;
-    };
+    nextCursor?: string | null;
     hasMore: boolean;
 };
 
@@ -102,9 +100,7 @@ export type ListProjectItem = {
 
 export type ListProjectsResponse = {
     projects: Array<ListProjectItem>;
-    nextCursor: {
-        [key: string]: unknown;
-    };
+    nextCursor: string | null;
 };
 
 export type ListProjectConversationsRequest = {
@@ -121,16 +117,12 @@ export type ProjectConversationItem = {
     platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
     model: string;
     createdAt: string;
-    projectId: {
-        [key: string]: unknown;
-    };
+    projectId: string | null;
 };
 
 export type ListProjectConversationsResponse = {
     conversations: Array<ProjectConversationItem>;
-    nextCursor: {
-        [key: string]: unknown;
-    };
+    nextCursor: string | null;
 };
 
 export type ConversationItem = {
@@ -146,9 +138,7 @@ export type ListConversationsResponse = {
     /**
      * Pass this cursor to fetch the next page. Null when no more pages.
      */
-    nextCursor?: {
-        [key: string]: unknown;
-    };
+    nextCursor?: string | null;
     hasMore: boolean;
 };
 
@@ -175,9 +165,7 @@ export type GetConversationResponse = {
     model: string;
     platform: string;
     createdAt: string;
-    projectId: {
-        [key: string]: unknown;
-    };
+    projectId: string | null;
 };
 
 export type UpdateConversationRequest = {
@@ -202,9 +190,7 @@ export type ListConversationMessagesResponse = {
     /**
      * Pass this cursor to fetch the next page. Null when no more pages.
      */
-    nextCursor?: {
-        [key: string]: unknown;
-    };
+    nextCursor?: string | null;
     hasMore: boolean;
 };
 
@@ -264,9 +250,7 @@ export type ListFreeConversationsResponse = {
     /**
      * Pass this cursor to fetch the next page. Null when no more pages.
      */
-    nextCursor?: {
-        [key: string]: unknown;
-    };
+    nextCursor?: string | null;
     hasMore: boolean;
 };
 
@@ -283,9 +267,7 @@ export type ListFreeConversationMessagesResponse = {
     /**
      * Pass this cursor to fetch the next page. Null when no more pages.
      */
-    nextCursor?: {
-        [key: string]: unknown;
-    };
+    nextCursor?: string | null;
     hasMore: boolean;
 };
 
@@ -305,9 +287,7 @@ export type SendFreeMessageResponse = {
 
 export type GetUserSettingsResponse = {
     platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
-    model?: {
-        [key: string]: unknown;
-    };
+    model?: string | null;
     tier: 'free' | 'premium';
 };
 
