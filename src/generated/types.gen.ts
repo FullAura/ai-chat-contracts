@@ -175,6 +175,9 @@ export type GetConversationResponse = {
     model: string;
     platform: string;
     createdAt: string;
+    projectId: {
+        [key: string]: unknown;
+    };
 };
 
 export type UpdateConversationRequest = {
