@@ -103,14 +103,6 @@ export type ListProjectsResponse = {
     nextCursor: string | null;
 };
 
-export type ListProjectConversationsRequest = {
-    limit?: number;
-    /**
-     * Cursor from previous page response
-     */
-    cursor?: string;
-};
-
 export type ProjectConversationItem = {
     conversationId: string;
     title: string;
@@ -285,6 +277,95 @@ export type SendFreeMessageResponse = {
     imageUrl?: string;
 };
 
+export type SubscriptionItem = {
+    purchaseId: string;
+    status: string;
+    memberSince: string;
+    nextPaymentDate: string;
+    paymentAmount: string;
+    productName: string;
+};
+
+export type GetSubscriptionResponse = {
+    success: boolean;
+    subscription?: SubscriptionItem | null;
+};
+
+export type CreateOrderRequest = {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+    address?: string;
+    city?: string;
+    province?: string;
+    state?: string;
+    zip?: string;
+    country?: string;
+    campaignId?: string;
+    sessionId?: string;
+    productId?: string;
+    cardNumber?: string;
+    creditCard?: string;
+    cardMonth?: string;
+    cardYear?: string;
+    /**
+     * MM/YY — overrides cardMonth/cardYear when present
+     */
+    creditExpiration?: string;
+    cvv?: string;
+    creditCvv?: string;
+    redirectsTo?: string;
+    errorRedirectsTo?: string;
+    utmSource?: string;
+    affId?: string;
+    c1?: string;
+    c2?: string;
+    c3?: string;
+    c4?: string;
+    c5?: string;
+    language?: string;
+    /**
+     * Chat result uuid to link to the created user
+     */
+    sid?: string;
+    /**
+     * 3DS browser data merged into the Konnektive payload
+     */
+    browserData?: {
+        [key: string]: unknown;
+    };
+};
+
+export type OrderSession = {
+    accessToken?: string;
+    refreshToken?: string;
+    expiresAt?: number;
+};
+
+export type CreateOrderResponse = {
+    success: boolean;
+    orderId?: string;
+    customerId?: string;
+    /**
+     * True when 3DS authentication is required
+     */
+    redirect?: boolean;
+    /**
+     * 3DS redirect URL
+     */
+    redirectUrl?: string;
+    /**
+     * 3DS injected script
+     */
+    script?: string;
+    session?: OrderSession;
+    /**
+     * Error message when success is false
+     */
+    error?: string;
+};
+
 export type GetUserSettingsResponse = {
     platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
     model?: string | null;
@@ -299,6 +380,7 @@ export type SelectUserSettingsRequest = {
 export type SelectUserSettingsResponse = {
     platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
     model: string;
+    tier: 'free' | 'premium';
 };
 
 export type AppControllerGetData = {
@@ -432,7 +514,7 @@ export type PlatformPrivateControllerCreateProjectResponses = {
 export type PlatformPrivateControllerCreateProjectResponse = PlatformPrivateControllerCreateProjectResponses[keyof PlatformPrivateControllerCreateProjectResponses];
 
 export type PlatformPrivateControllerDeleteProjectData = {
-    body: UpdateProjectRequest;
+    body?: never;
     path: {
         projectId: string;
     };
@@ -508,11 +590,17 @@ export type PlatformPrivateControllerListProjectsResponses = {
 export type PlatformPrivateControllerListProjectsResponse = PlatformPrivateControllerListProjectsResponses[keyof PlatformPrivateControllerListProjectsResponses];
 
 export type PlatformPrivateControllerListProjectConversationsData = {
-    body: ListProjectConversationsRequest;
+    body?: never;
     path: {
         projectId: string;
     };
-    query?: never;
+    query?: {
+        limit?: number;
+        /**
+         * Cursor from previous page response
+         */
+        cursor?: string;
+    };
     url: '/private-platform/projects/{projectId}/conversations';
 };
 
@@ -689,7 +777,7 @@ export type PlatformPrivateControllerGetConversationImageData = {
 
 export type PlatformPrivateControllerGetConversationImageResponses = {
     /**
-     * Returns the generated image as image/png
+     * Returns the generated image as image/jpeg
      */
     200: unknown;
 };
@@ -838,7 +926,7 @@ export type PlatformPublicControllerGetConversationImageData = {
 
 export type PlatformPublicControllerGetConversationImageResponses = {
     /**
-     * Returns the generated image as image/png
+     * Returns the generated image as image/jpeg
      */
     200: unknown;
 };
@@ -853,6 +941,35 @@ export type PlatformWebhooksControllerHandleOpenaiWebhookData = {
 export type PlatformWebhooksControllerHandleOpenaiWebhookResponses = {
     200: unknown;
 };
+
+export type PaymentsPrivateControllerGetSubscriptionData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/private-payments/subscription';
+};
+
+export type PaymentsPrivateControllerGetSubscriptionResponses = {
+    200: GetSubscriptionResponse;
+};
+
+export type PaymentsPrivateControllerGetSubscriptionResponse = PaymentsPrivateControllerGetSubscriptionResponses[keyof PaymentsPrivateControllerGetSubscriptionResponses];
+
+export type PaymentsPublicControllerCreateOrderData = {
+    body: CreateOrderRequest;
+    headers: {
+        'user-agent': string;
+    };
+    path?: never;
+    query?: never;
+    url: '/public-payments/order';
+};
+
+export type PaymentsPublicControllerCreateOrderResponses = {
+    200: CreateOrderResponse;
+};
+
+export type PaymentsPublicControllerCreateOrderResponse = PaymentsPublicControllerCreateOrderResponses[keyof PaymentsPublicControllerCreateOrderResponses];
 
 export type UserPrivateControllerGetUserModelData = {
     body?: never;
