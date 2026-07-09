@@ -291,6 +291,40 @@ export type GetSubscriptionResponse = {
     subscription?: SubscriptionItem | null;
 };
 
+export type ImportClickRequest = {
+    conversationId?: string;
+    country?: string;
+    /**
+     * Path + query of the checkout page
+     */
+    requestPath: string;
+    affId?: string;
+    c1?: string;
+    c2?: string;
+    c3?: string;
+    c4?: string;
+    c5?: string;
+    gclid?: string;
+    utmSource?: string;
+    utmMedium?: string;
+    utmCampaign?: string;
+    utmContent?: string;
+    utmTerm?: string;
+};
+
+export type ImportClickResponse = {
+    success: boolean;
+    /**
+     * Konnektive session id to thread through the eventual order
+     */
+    sessionId?: string;
+    customerId?: string;
+    /**
+     * Error message when success is false
+     */
+    error?: string;
+};
+
 export type CreateOrderRequest = {
     firstName?: string;
     lastName?: string;
@@ -302,9 +336,7 @@ export type CreateOrderRequest = {
     state?: string;
     zip?: string;
     country?: string;
-    campaignId?: string;
     sessionId?: string;
-    productId?: string;
     cardNumber?: string;
     creditCard?: string;
     cardMonth?: string;
@@ -360,6 +392,133 @@ export type CreateOrderResponse = {
      */
     script?: string;
     session?: OrderSession;
+    /**
+     * Error message when success is false
+     */
+    error?: string;
+};
+
+export type ValidateMerchantRequest = {
+    /**
+     * Override the default Adyen merchant account
+     */
+    adyenMerchantAccount?: string;
+};
+
+export type ValidateMerchantResponse = {
+    epochTimestamp?: number;
+    expiresAt?: number;
+    merchantSessionIdentifier?: string;
+    nonce?: string;
+    merchantIdentifier?: string;
+    domainName?: string;
+    displayName?: string;
+    signature?: string;
+    operationalAnalyticsIdentifier?: string;
+    retries?: number;
+    pspId?: string;
+};
+
+export type ApplePayCreateOrderRequest = {
+    /**
+     * Opaque Apple Pay payment token
+     */
+    applePayToken: {
+        [key: string]: unknown;
+    };
+    givenName?: string;
+    familyName?: string;
+    emailAddress?: string;
+    phoneNumber?: string;
+    addressLines?: Array<string>;
+    locality?: string;
+    administrativeArea?: string;
+    postalCode?: string;
+    countryCode?: string;
+    country?: string;
+    sessionId?: string;
+    /**
+     * Whether the buyer chose the split-payment plan
+     */
+    splitPayment?: boolean;
+    conversationId?: string;
+    utmSource?: string;
+    affId?: string;
+    c1?: string;
+    c2?: string;
+    c3?: string;
+    c4?: string;
+    c5?: string;
+    language?: string;
+    /**
+     * Chat result uuid to link to the created user
+     */
+    sid?: string;
+    gender?: string;
+    quizAnswers?: Array<string>;
+};
+
+export type ApplePayOrderSession = {
+    accessToken?: string;
+    refreshToken?: string;
+    expiresAt?: number;
+};
+
+export type ApplePayCreateOrderResponse = {
+    success: boolean;
+    orderId?: string;
+    customerId?: string;
+    session?: ApplePayOrderSession;
+    /**
+     * Error message when success is false
+     */
+    error?: string;
+};
+
+export type GooglePayCreateOrderRequest = {
+    /**
+     * Google Pay payment token
+     */
+    googlePayToken: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    country?: string;
+    countryCode?: string;
+    sessionId?: string;
+    quizSlug?: string;
+    utmSource?: string;
+    affId?: string;
+    c1?: string;
+    c2?: string;
+    c3?: string;
+    c4?: string;
+    c5?: string;
+    language?: string;
+    /**
+     * Chat result uuid to link to the created user
+     */
+    sid?: string;
+    gender?: string;
+    quizAnswers?: Array<string>;
+};
+
+export type GooglePayOrderSession = {
+    accessToken?: string;
+    refreshToken?: string;
+    expiresAt?: number;
+};
+
+export type GooglePayCreateOrderResponse = {
+    success: boolean;
+    orderId?: string;
+    customerId?: string;
+    session?: GooglePayOrderSession;
     /**
      * Error message when success is false
      */
@@ -955,6 +1114,19 @@ export type PaymentsPrivateControllerGetSubscriptionResponses = {
 
 export type PaymentsPrivateControllerGetSubscriptionResponse = PaymentsPrivateControllerGetSubscriptionResponses[keyof PaymentsPrivateControllerGetSubscriptionResponses];
 
+export type PaymentsPublicControllerImportClickData = {
+    body: ImportClickRequest;
+    path?: never;
+    query?: never;
+    url: '/public-payments/lead/import-click';
+};
+
+export type PaymentsPublicControllerImportClickResponses = {
+    200: ImportClickResponse;
+};
+
+export type PaymentsPublicControllerImportClickResponse = PaymentsPublicControllerImportClickResponses[keyof PaymentsPublicControllerImportClickResponses];
+
 export type PaymentsPublicControllerCreateOrderData = {
     body: CreateOrderRequest;
     headers: {
@@ -970,6 +1142,45 @@ export type PaymentsPublicControllerCreateOrderResponses = {
 };
 
 export type PaymentsPublicControllerCreateOrderResponse = PaymentsPublicControllerCreateOrderResponses[keyof PaymentsPublicControllerCreateOrderResponses];
+
+export type PaymentsPublicControllerValidateMerchantData = {
+    body: ValidateMerchantRequest;
+    path?: never;
+    query?: never;
+    url: '/public-payments/apple-pay/validate-merchant';
+};
+
+export type PaymentsPublicControllerValidateMerchantResponses = {
+    200: ValidateMerchantResponse;
+};
+
+export type PaymentsPublicControllerValidateMerchantResponse = PaymentsPublicControllerValidateMerchantResponses[keyof PaymentsPublicControllerValidateMerchantResponses];
+
+export type PaymentsPublicControllerApplePayOrderData = {
+    body: ApplePayCreateOrderRequest;
+    path?: never;
+    query?: never;
+    url: '/public-payments/apple-pay/order';
+};
+
+export type PaymentsPublicControllerApplePayOrderResponses = {
+    200: ApplePayCreateOrderResponse;
+};
+
+export type PaymentsPublicControllerApplePayOrderResponse = PaymentsPublicControllerApplePayOrderResponses[keyof PaymentsPublicControllerApplePayOrderResponses];
+
+export type PaymentsPublicControllerGooglePayOrderData = {
+    body: GooglePayCreateOrderRequest;
+    path?: never;
+    query?: never;
+    url: '/public-payments/google-pay/order';
+};
+
+export type PaymentsPublicControllerGooglePayOrderResponses = {
+    200: GooglePayCreateOrderResponse;
+};
+
+export type PaymentsPublicControllerGooglePayOrderResponse = PaymentsPublicControllerGooglePayOrderResponses[keyof PaymentsPublicControllerGooglePayOrderResponses];
 
 export type UserPrivateControllerGetUserModelData = {
     body?: never;
