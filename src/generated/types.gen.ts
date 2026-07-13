@@ -51,6 +51,11 @@ export type VerifyOtpResponse = {
 export type UserProfile = {
     id: string;
     email: string;
+    displayName: string;
+};
+
+export type UpdateProfileRequest = {
+    displayName: string;
 };
 
 export type ImageItem = {
@@ -336,6 +341,10 @@ export type CreateOrderRequest = {
     state?: string;
     zip?: string;
     country?: string;
+    /**
+     * Offer key (e.g. trial_split_1). Resolved server-side to the real Konnektive product.
+     */
+    productId: string;
     sessionId?: string;
     cardNumber?: string;
     creditCard?: string;
@@ -398,14 +407,14 @@ export type CreateOrderResponse = {
     error?: string;
 };
 
-export type ValidateMerchantRequest = {
+export type ApplePayValidateMerchantRequest = {
     /**
      * Override the default Adyen merchant account
      */
     adyenMerchantAccount?: string;
 };
 
-export type ValidateMerchantResponse = {
+export type ApplePayValidateMerchantResponse = {
     epochTimestamp?: number;
     expiresAt?: number;
     merchantSessionIdentifier?: string;
@@ -436,6 +445,10 @@ export type ApplePayCreateOrderRequest = {
     postalCode?: string;
     countryCode?: string;
     country?: string;
+    /**
+     * Offer key (e.g. trial_split_1). Resolved server-side to the real Konnektive product.
+     */
+    productId: string;
     sessionId?: string;
     /**
      * Whether the buyer chose the split-payment plan
@@ -490,6 +503,10 @@ export type GooglePayCreateOrderRequest = {
     postalCode?: string;
     country?: string;
     countryCode?: string;
+    /**
+     * Offer key (e.g. trial_split_1). Resolved server-side to the real Konnektive product.
+     */
+    productId: string;
     sessionId?: string;
     quizSlug?: string;
     utmSource?: string;
@@ -525,7 +542,24 @@ export type GooglePayCreateOrderResponse = {
     error?: string;
 };
 
-export type GetUserSettingsResponse = {
+export type ThreedsCallbackRequest = {
+    /**
+     * '1' when the 3DS transaction should be finalized
+     */
+    finalizeTransaction?: {
+        [key: string]: unknown;
+    };
+    /**
+     * JSON string (or object) with the pending order data
+     */
+    orderData?: {
+        [key: string]: unknown;
+    };
+    orderId?: string;
+    errorMsg?: string;
+};
+
+export type UserSettingsResponse = {
     platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
     model?: string | null;
     tier: 'free' | 'premium';
@@ -534,12 +568,6 @@ export type GetUserSettingsResponse = {
 export type SelectUserSettingsRequest = {
     platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
     model: string;
-};
-
-export type SelectUserSettingsResponse = {
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
-    model: string;
-    tier: 'free' | 'premium';
 };
 
 export type AppControllerGetData = {
@@ -632,6 +660,19 @@ export type AuthPrivateControllerGetProfileResponses = {
 };
 
 export type AuthPrivateControllerGetProfileResponse = AuthPrivateControllerGetProfileResponses[keyof AuthPrivateControllerGetProfileResponses];
+
+export type AuthPrivateControllerUpdateProfileData = {
+    body: UpdateProfileRequest;
+    path?: never;
+    query?: never;
+    url: '/private-auth/profile';
+};
+
+export type AuthPrivateControllerUpdateProfileResponses = {
+    200: UserProfile;
+};
+
+export type AuthPrivateControllerUpdateProfileResponse = AuthPrivateControllerUpdateProfileResponses[keyof AuthPrivateControllerUpdateProfileResponses];
 
 export type PlatformPrivateControllerListImagesData = {
     body?: never;
@@ -1144,14 +1185,14 @@ export type PaymentsPublicControllerCreateOrderResponses = {
 export type PaymentsPublicControllerCreateOrderResponse = PaymentsPublicControllerCreateOrderResponses[keyof PaymentsPublicControllerCreateOrderResponses];
 
 export type PaymentsPublicControllerValidateMerchantData = {
-    body: ValidateMerchantRequest;
+    body: ApplePayValidateMerchantRequest;
     path?: never;
     query?: never;
     url: '/public-payments/apple-pay/validate-merchant';
 };
 
 export type PaymentsPublicControllerValidateMerchantResponses = {
-    200: ValidateMerchantResponse;
+    200: ApplePayValidateMerchantResponse;
 };
 
 export type PaymentsPublicControllerValidateMerchantResponse = PaymentsPublicControllerValidateMerchantResponses[keyof PaymentsPublicControllerValidateMerchantResponses];
@@ -1182,6 +1223,27 @@ export type PaymentsPublicControllerGooglePayOrderResponses = {
 
 export type PaymentsPublicControllerGooglePayOrderResponse = PaymentsPublicControllerGooglePayOrderResponses[keyof PaymentsPublicControllerGooglePayOrderResponses];
 
+export type PaymentsPublicControllerThreedsCallbackData = {
+    body: ThreedsCallbackRequest;
+    path?: never;
+    query?: {
+        email?: string;
+        slug?: string;
+        country?: string;
+        productId?: string;
+        firstName?: string;
+        lastName?: string;
+        sid?: string;
+        language?: string;
+        errorMsg?: string;
+    };
+    url: '/public-payments/3ds-callback';
+};
+
+export type PaymentsPublicControllerThreedsCallbackResponses = {
+    201: unknown;
+};
+
 export type UserPrivateControllerGetUserModelData = {
     body?: never;
     path?: never;
@@ -1190,7 +1252,7 @@ export type UserPrivateControllerGetUserModelData = {
 };
 
 export type UserPrivateControllerGetUserModelResponses = {
-    200: GetUserSettingsResponse;
+    200: UserSettingsResponse;
 };
 
 export type UserPrivateControllerGetUserModelResponse = UserPrivateControllerGetUserModelResponses[keyof UserPrivateControllerGetUserModelResponses];
@@ -1203,7 +1265,7 @@ export type UserPrivateControllerSelectUserModelData = {
 };
 
 export type UserPrivateControllerSelectUserModelResponses = {
-    200: SelectUserSettingsResponse;
+    200: UserSettingsResponse;
 };
 
 export type UserPrivateControllerSelectUserModelResponse = UserPrivateControllerSelectUserModelResponses[keyof UserPrivateControllerSelectUserModelResponses];
