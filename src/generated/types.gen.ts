@@ -182,8 +182,18 @@ export type DeleteConversationResponse = {
     success: boolean;
 };
 
+export type MessageItem = {
+    id: string;
+    conversationId: string;
+    role: 'user' | 'assistant' | 'system';
+    content: string;
+    imageId?: string | null;
+    mode: 'text' | 'web_search' | 'image';
+    createdAt: string;
+};
+
 export type ListConversationMessagesResponse = {
-    messages: Array<string>;
+    messages: Array<MessageItem>;
     /**
      * Pass this cursor to fetch the next page. Null when no more pages.
      */
@@ -260,7 +270,7 @@ export type GetFreeConversationResponse = {
 };
 
 export type ListFreeConversationMessagesResponse = {
-    messages: Array<string>;
+    messages: Array<MessageItem>;
     /**
      * Pass this cursor to fetch the next page. Null when no more pages.
      */
