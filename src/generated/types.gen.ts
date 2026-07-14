@@ -139,8 +139,17 @@ export type ListConversationsResponse = {
     hasMore: boolean;
 };
 
+export type ConversationSearchItem = {
+    conversationId: string;
+    title: string;
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    model: string;
+    createdAt: string;
+    content: string;
+};
+
 export type SearchConversationsResponse = {
-    conversations: Array<ConversationItem>;
+    conversations: Array<ConversationSearchItem>;
 };
 
 export type OpenConversationRequest = {
