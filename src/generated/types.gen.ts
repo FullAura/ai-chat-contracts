@@ -315,9 +315,24 @@ export type GetSubscriptionResponse = {
     subscription?: SubscriptionItem | null;
 };
 
+export type CancelSubscriptionResponse = {
+    success: boolean;
+};
+
+export type QueryProductsResponse = {
+    result: string;
+    /**
+     * On success: `{ data: KonnektiveProduct[] }`. On failure: an error string.
+     */
+    message: {
+        [key: string]: unknown;
+    };
+};
+
 export type ImportClickRequest = {
     conversationId?: string;
     country?: string;
+    fingerprintId: string;
     /**
      * Path + query of the checkout page
      */
@@ -395,6 +410,7 @@ export type CreateOrderRequest = {
     browserData?: {
         [key: string]: unknown;
     };
+    fingerprintId: string;
 };
 
 export type OrderSession = {
@@ -1174,6 +1190,32 @@ export type PaymentsPrivateControllerGetSubscriptionResponses = {
 
 export type PaymentsPrivateControllerGetSubscriptionResponse = PaymentsPrivateControllerGetSubscriptionResponses[keyof PaymentsPrivateControllerGetSubscriptionResponses];
 
+export type PaymentsPrivateControllerCancelSubscriptionData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/private-payments/subscription/cancel';
+};
+
+export type PaymentsPrivateControllerCancelSubscriptionResponses = {
+    200: CancelSubscriptionResponse;
+};
+
+export type PaymentsPrivateControllerCancelSubscriptionResponse = PaymentsPrivateControllerCancelSubscriptionResponses[keyof PaymentsPrivateControllerCancelSubscriptionResponses];
+
+export type PaymentsPublicControllerQueryProductsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/public-payments/products';
+};
+
+export type PaymentsPublicControllerQueryProductsResponses = {
+    200: QueryProductsResponse;
+};
+
+export type PaymentsPublicControllerQueryProductsResponse = PaymentsPublicControllerQueryProductsResponses[keyof PaymentsPublicControllerQueryProductsResponses];
+
 export type PaymentsPublicControllerImportClickData = {
     body: ImportClickRequest;
     path?: never;
@@ -1261,6 +1303,24 @@ export type PaymentsPublicControllerThreedsCallbackData = {
 
 export type PaymentsPublicControllerThreedsCallbackResponses = {
     201: unknown;
+};
+
+export type PaymentsWebhooksControllerHandleKonnektiveWebhookData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Shared secret validating the postback
+         */
+        secret?: string;
+        email?: string;
+        purchaseId?: string;
+    };
+    url: '/webhooks-payments/konnektive';
+};
+
+export type PaymentsWebhooksControllerHandleKonnektiveWebhookResponses = {
+    200: unknown;
 };
 
 export type UserPrivateControllerGetUserModelData = {
