@@ -319,14 +319,24 @@ export type CancelSubscriptionResponse = {
     success: boolean;
 };
 
-export type QueryProductsResponse = {
-    result: string;
-    /**
-     * On success: `{ data: KonnektiveProduct[] }`. On failure: an error string.
-     */
-    message: {
+export type ProductItem = {
+    productName: string;
+    campaignProductId: {
         [key: string]: unknown;
     };
+    productId?: {
+        [key: string]: unknown;
+    };
+    price?: string;
+    shippingPrice?: string;
+    productDescription?: string;
+};
+
+export type QueryProductsResponse = {
+    /**
+     * Offers configured in the campaign
+     */
+    products: Array<ProductItem>;
 };
 
 export type ImportClickRequest = {
@@ -1206,7 +1216,12 @@ export type PaymentsPrivateControllerCancelSubscriptionResponse = PaymentsPrivat
 export type PaymentsPublicControllerQueryProductsData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * Region — selects which campaign offers to return
+         */
+        country?: string;
+    };
     url: '/public-payments/products';
 };
 
