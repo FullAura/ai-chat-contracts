@@ -386,9 +386,9 @@ export type CreateOrderRequest = {
     zip?: string;
     country?: string;
     /**
-     * Offer key (e.g. trial_split_1). Resolved server-side to the real Konnektive product.
+     * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: string;
+    productId: '43' | '39' | '40';
     sessionId?: string;
     cardNumber?: string;
     creditCard?: string;
@@ -491,9 +491,9 @@ export type ApplePayCreateOrderRequest = {
     countryCode?: string;
     country?: string;
     /**
-     * Offer key (e.g. trial_split_1). Resolved server-side to the real Konnektive product.
+     * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: string;
+    productId: '43' | '39' | '40';
     sessionId?: string;
     /**
      * Whether the buyer chose the split-payment plan
@@ -549,11 +549,11 @@ export type GooglePayCreateOrderRequest = {
     country?: string;
     countryCode?: string;
     /**
-     * Offer key (e.g. trial_split_1). Resolved server-side to the real Konnektive product.
+     * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: string;
+    productId: '43' | '39' | '40';
     sessionId?: string;
-    quizSlug?: string;
+    conversationId?: string;
     utmSource?: string;
     affId?: string;
     c1?: string;
@@ -581,6 +581,98 @@ export type GooglePayCreateOrderResponse = {
     orderId?: string;
     customerId?: string;
     session?: GooglePayOrderSession;
+    /**
+     * Error message when success is false
+     */
+    error?: string;
+};
+
+export type PaypalCreateOrderRequest = {
+    /**
+     * URL PayPal returns the buyer to after approval
+     */
+    returnUrl: string;
+    /**
+     * URL PayPal returns the buyer to on cancel/error
+     */
+    cancelUrl: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    country?: string;
+    /**
+     * Campaign product id (plan). Resolved server-side to the real Konnektive product.
+     */
+    productId: '43' | '39' | '40';
+    sessionId: string;
+    conversationId?: string;
+    utmSource?: string;
+    affId?: string;
+    c1?: string;
+    c2?: string;
+    c3?: string;
+    c4?: string;
+    c5?: string;
+};
+
+export type PaypalCreateOrderResponse = {
+    success: boolean;
+    /**
+     * PayPal approval URL to redirect the buyer to
+     */
+    redirectUrl?: string;
+    orderId?: string;
+    customerId?: string;
+    /**
+     * Error message when success is false
+     */
+    error?: string;
+};
+
+export type PaypalConfirmOrderRequest = {
+    /**
+     * PayPal EC token (redirect `token`)
+     */
+    token: string;
+    /**
+     * PayPal payer id (redirect `PayerID`)
+     */
+    payerId: string;
+    /**
+     * PayPal billing-agreement token (redirect `ba_token`)
+     */
+    baToken?: string;
+    /**
+     * Overrides the email echoed back by PayPal
+     */
+    preferredEmail?: string;
+    email?: string;
+    country?: string;
+    /**
+     * Campaign product id (plan). PayPal always charges the non-split (full) offer.
+     */
+    productId: '43' | '39' | '40';
+    sessionId?: string;
+    couponCode?: string;
+    affId?: string;
+    c1?: string;
+    c2?: string;
+    c3?: string;
+    c4?: string;
+};
+
+export type PaypalOrderSession = {
+    accessToken?: string;
+    refreshToken?: string;
+    expiresAt?: number;
+};
+
+export type PaypalConfirmOrderResponse = {
+    success: boolean;
+    orderId?: string;
+    customerId?: string;
+    email?: string;
+    session?: PaypalOrderSession;
     /**
      * Error message when success is false
      */
@@ -1298,6 +1390,38 @@ export type PaymentsPublicControllerGooglePayOrderResponses = {
 };
 
 export type PaymentsPublicControllerGooglePayOrderResponse = PaymentsPublicControllerGooglePayOrderResponses[keyof PaymentsPublicControllerGooglePayOrderResponses];
+
+export type PaymentsPublicControllerPaypalOrderData = {
+    body: PaypalCreateOrderRequest;
+    headers: {
+        'user-agent': string;
+    };
+    path?: never;
+    query?: never;
+    url: '/public-payments/paypal-pay/order';
+};
+
+export type PaymentsPublicControllerPaypalOrderResponses = {
+    200: PaypalCreateOrderResponse;
+};
+
+export type PaymentsPublicControllerPaypalOrderResponse = PaymentsPublicControllerPaypalOrderResponses[keyof PaymentsPublicControllerPaypalOrderResponses];
+
+export type PaymentsPublicControllerPaypalConfirmData = {
+    body: PaypalConfirmOrderRequest;
+    headers: {
+        'user-agent': string;
+    };
+    path?: never;
+    query?: never;
+    url: '/public-payments/paypal-pay/confirm';
+};
+
+export type PaymentsPublicControllerPaypalConfirmResponses = {
+    200: PaypalConfirmOrderResponse;
+};
+
+export type PaymentsPublicControllerPaypalConfirmResponse = PaymentsPublicControllerPaypalConfirmResponses[keyof PaymentsPublicControllerPaypalConfirmResponses];
 
 export type PaymentsPublicControllerThreedsCallbackData = {
     body: ThreedsCallbackRequest;
