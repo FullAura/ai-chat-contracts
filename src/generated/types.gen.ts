@@ -347,6 +347,17 @@ export type QueryProductsResponse = {
     products: Array<ProductItem>;
 };
 
+export type GetCurrencyResponse = {
+    /**
+     * Billing currency for the region (resolved server-side)
+     */
+    currency: string;
+    /**
+     * Display symbol for the billing currency
+     */
+    currencySymbol: string;
+};
+
 export type ImportClickRequest = {
     conversationId?: string;
     country?: string;
@@ -1330,6 +1341,24 @@ export type PaymentsPublicControllerQueryProductsResponses = {
 };
 
 export type PaymentsPublicControllerQueryProductsResponse = PaymentsPublicControllerQueryProductsResponses[keyof PaymentsPublicControllerQueryProductsResponses];
+
+export type PaymentsPublicControllerGetCurrencyData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Region — selects the billing currency
+         */
+        country: string;
+    };
+    url: '/public-payments/currency';
+};
+
+export type PaymentsPublicControllerGetCurrencyResponses = {
+    200: GetCurrencyResponse;
+};
+
+export type PaymentsPublicControllerGetCurrencyResponse = PaymentsPublicControllerGetCurrencyResponses[keyof PaymentsPublicControllerGetCurrencyResponses];
 
 export type PaymentsPublicControllerImportClickData = {
     body: ImportClickRequest;
