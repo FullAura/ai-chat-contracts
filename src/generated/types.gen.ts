@@ -328,6 +328,14 @@ export type ProductItem = {
         [key: string]: unknown;
     };
     price?: string;
+    /**
+     * Billing currency for the region (resolved server-side)
+     */
+    currency?: string;
+    /**
+     * Display symbol for the billing currency
+     */
+    currencySymbol?: string;
     shippingPrice?: string;
     productDescription?: string;
 };
@@ -388,7 +396,7 @@ export type CreateOrderRequest = {
     /**
      * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: '43' | '39' | '40';
+    productId: '48' | '45' | '46';
     sessionId?: string;
     cardNumber?: string;
     creditCard?: string;
@@ -493,7 +501,7 @@ export type ApplePayCreateOrderRequest = {
     /**
      * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: '43' | '39' | '40';
+    productId: '48' | '45' | '46';
     sessionId?: string;
     /**
      * Whether the buyer chose the split-payment plan
@@ -551,7 +559,7 @@ export type GooglePayCreateOrderRequest = {
     /**
      * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: '43' | '39' | '40';
+    productId: '48' | '45' | '46';
     sessionId?: string;
     conversationId?: string;
     utmSource?: string;
@@ -603,7 +611,7 @@ export type PaypalCreateOrderRequest = {
     /**
      * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: '43' | '39' | '40';
+    productId: '48' | '45' | '46';
     sessionId: string;
     conversationId?: string;
     utmSource?: string;
@@ -651,7 +659,7 @@ export type PaypalConfirmOrderRequest = {
     /**
      * Campaign product id (plan). PayPal always charges the non-split (full) offer.
      */
-    productId: '43' | '39' | '40';
+    productId: '48' | '45' | '46';
     sessionId?: string;
     couponCode?: string;
     affId?: string;
@@ -1308,11 +1316,11 @@ export type PaymentsPrivateControllerCancelSubscriptionResponse = PaymentsPrivat
 export type PaymentsPublicControllerQueryProductsData = {
     body?: never;
     path?: never;
-    query?: {
+    query: {
         /**
          * Region — selects which campaign offers to return
          */
-        country?: string;
+        country: string;
     };
     url: '/public-payments/products';
 };
