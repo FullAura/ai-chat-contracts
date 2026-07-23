@@ -354,7 +354,8 @@ export type ProductItem = {
     productName: string;
     campaignProductId: string;
     productId: string;
-    price: string;
+    price?: string;
+    nextBillingPrice?: string;
     /**
      * Billing currency for the region (resolved server-side)
      */
