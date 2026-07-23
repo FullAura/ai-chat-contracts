@@ -301,13 +301,44 @@ export type SendFreeMessageResponse = {
     imageUrl?: string;
 };
 
+export type KonnektiveCampaignProduct = {
+    productName: string;
+    campaignProductId: string;
+    productId: string;
+    campaignId: string;
+    billingCycleType: 'ONE_TIME' | 'RECURRING' | 'MULTI_PAY';
+    /**
+     * Campaign's base billing currency
+     */
+    currency: string;
+    /**
+     * Campaign's base billing price
+     */
+    price?: string;
+    /**
+     * Base price charged at the next rebill (recurring cycle price)
+     */
+    nextBillingPrice?: string;
+    shippingPrice?: string;
+    productDescription?: string;
+};
+
 export type SubscriptionItem = {
-    purchaseId: string;
     status: string;
+    amount: number;
+    currency: string;
+    /**
+     * First payment date
+     */
     memberSince: string;
     nextPaymentDate: string;
-    paymentAmount: string;
-    productName: string;
+    /**
+     * Base price charged at the next rebill
+     */
+    nextPaymentPrice?: {
+        [key: string]: unknown;
+    } | null;
+    product?: KonnektiveCampaignProduct | null;
 };
 
 export type GetSubscriptionResponse = {
@@ -321,17 +352,13 @@ export type CancelSubscriptionResponse = {
 
 export type ProductItem = {
     productName: string;
-    campaignProductId: {
-        [key: string]: unknown;
-    };
-    productId?: {
-        [key: string]: unknown;
-    };
+    campaignProductId: string;
+    productId: string;
     price?: string;
     /**
      * Billing currency for the region (resolved server-side)
      */
-    currency?: string;
+    currency: string;
     /**
      * Display symbol for the billing currency
      */
@@ -421,6 +448,7 @@ export type CreateOrderRequest = {
     creditCvv?: string;
     redirectsTo?: string;
     errorRedirectsTo?: string;
+    conversationId?: string;
     utmSource?: string;
     affId?: string;
     c1?: string;
