@@ -356,6 +356,7 @@ export type ProductItem = {
     productId: string;
     price?: string;
     nextBillingPrice?: string;
+    billingCycleType?: 'ONE_TIME' | 'RECURRING' | 'MULTI_PAY';
     /**
      * Billing currency for the region (resolved server-side)
      */
