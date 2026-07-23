@@ -312,7 +312,7 @@ export type KonnektiveCampaignProduct = {
      */
     currency: string;
     /**
-     * Campaign's base billing price
+     * Base-currency entry price
      */
     price?: string;
     /**
@@ -354,7 +354,7 @@ export type ProductItem = {
     productName: string;
     campaignProductId: string;
     productId: string;
-    price?: string;
+    price: string;
     /**
      * Billing currency for the region (resolved server-side)
      */
