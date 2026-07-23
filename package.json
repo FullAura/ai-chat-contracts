@@ -1,6 +1,6 @@
 {
   "name": "@ai-chat/contracts",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Shared API request/response types for the AI Chat platform",
   "license": "UNLICENSED",
   "private": true,
