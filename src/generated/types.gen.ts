@@ -387,6 +387,21 @@ export type GetCurrencyResponse = {
     currencySymbol: string;
 };
 
+export type CancelRequestRequest = {
+    email: string;
+    /**
+     * URL the magic link returns to (must be allow-listed in Supabase)
+     */
+    redirectTo?: string;
+};
+
+export type CancelRequestResponse = {
+    /**
+     * Always true — a link is sent only if the email has an account
+     */
+    success: boolean;
+};
+
 export type ImportClickRequest = {
     conversationId?: string;
     country?: string;
@@ -1389,6 +1404,19 @@ export type PaymentsPublicControllerGetCurrencyResponses = {
 };
 
 export type PaymentsPublicControllerGetCurrencyResponse = PaymentsPublicControllerGetCurrencyResponses[keyof PaymentsPublicControllerGetCurrencyResponses];
+
+export type PaymentsPublicControllerCancelRequestData = {
+    body: CancelRequestRequest;
+    path?: never;
+    query?: never;
+    url: '/public-payments/subscription/cancel-request';
+};
+
+export type PaymentsPublicControllerCancelRequestResponses = {
+    200: CancelRequestResponse;
+};
+
+export type PaymentsPublicControllerCancelRequestResponse = PaymentsPublicControllerCancelRequestResponses[keyof PaymentsPublicControllerCancelRequestResponses];
 
 export type PaymentsPublicControllerImportClickData = {
     body: ImportClickRequest;
