@@ -191,6 +191,11 @@ export type DeleteConversationResponse = {
     success: boolean;
 };
 
+export type MessageSourceItem = {
+    url: string;
+    title: string;
+};
+
 export type MessageItem = {
     id: string;
     conversationId: string;
@@ -199,6 +204,10 @@ export type MessageItem = {
     imageId?: string | null;
     mode: 'text' | 'web_search' | 'image';
     createdAt: string;
+    /**
+     * Web-search citations, if any
+     */
+    sources?: Array<MessageSourceItem> | null;
 };
 
 export type ListConversationMessagesResponse = {
