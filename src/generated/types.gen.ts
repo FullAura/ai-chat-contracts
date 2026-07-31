@@ -208,6 +208,10 @@ export type MessageItem = {
      * Web-search citations, if any
      */
     sources?: Array<MessageSourceItem> | null;
+    /**
+     * The user's like/dislike on this assistant message, or null
+     */
+    feedback?: 'like' | 'dislike';
 };
 
 export type ListConversationMessagesResponse = {
@@ -225,6 +229,17 @@ export type SendMessageResponse = {
      * Generated image URL (only present when mode is image)
      */
     imageUrl?: string;
+};
+
+export type LeaveFeedbackRequest = {
+    /**
+     * like or dislike; send null (or omit) to clear existing feedback
+     */
+    feedback?: 'like' | 'dislike';
+};
+
+export type LeaveFeedbackResponse = {
+    success: boolean;
 };
 
 export type StopConversationResponse = {
@@ -308,6 +323,18 @@ export type SendFreeMessageResponse = {
      * Generated image URL (only present when mode is image)
      */
     imageUrl?: string;
+};
+
+export type LeaveFreeFeedbackRequest = {
+    fingerprintId: string;
+    /**
+     * like or dislike; send null (or omit) to clear existing feedback
+     */
+    feedback?: 'like' | 'dislike';
+};
+
+export type LeaveFreeFeedbackResponse = {
+    success: boolean;
 };
 
 export type KonnektiveCampaignProduct = {
@@ -1160,6 +1187,22 @@ export type PlatformPrivateControllerSendMessageResponses = {
 
 export type PlatformPrivateControllerSendMessageResponse = PlatformPrivateControllerSendMessageResponses[keyof PlatformPrivateControllerSendMessageResponses];
 
+export type PlatformPrivateControllerLeaveFeedbackData = {
+    body: LeaveFeedbackRequest;
+    path: {
+        conversationId: string;
+        messageId: string;
+    };
+    query?: never;
+    url: '/private-platform/conversations/{conversationId}/messages/{messageId}/feedback';
+};
+
+export type PlatformPrivateControllerLeaveFeedbackResponses = {
+    200: LeaveFeedbackResponse;
+};
+
+export type PlatformPrivateControllerLeaveFeedbackResponse = PlatformPrivateControllerLeaveFeedbackResponses[keyof PlatformPrivateControllerLeaveFeedbackResponses];
+
 export type PlatformPrivateControllerStopConversationData = {
     body?: never;
     path: {
@@ -1321,6 +1364,22 @@ export type PlatformPublicControllerSendMessageResponses = {
 };
 
 export type PlatformPublicControllerSendMessageResponse = PlatformPublicControllerSendMessageResponses[keyof PlatformPublicControllerSendMessageResponses];
+
+export type PlatformPublicControllerLeaveFeedbackData = {
+    body: LeaveFreeFeedbackRequest;
+    path: {
+        conversationId: string;
+        messageId: string;
+    };
+    query?: never;
+    url: '/public-platform/conversations/{conversationId}/messages/{messageId}/feedback';
+};
+
+export type PlatformPublicControllerLeaveFeedbackResponses = {
+    200: LeaveFreeFeedbackResponse;
+};
+
+export type PlatformPublicControllerLeaveFeedbackResponse = PlatformPublicControllerLeaveFeedbackResponses[keyof PlatformPublicControllerLeaveFeedbackResponses];
 
 export type PlatformPublicControllerGetConversationImageData = {
     body?: never;
