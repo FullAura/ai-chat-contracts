@@ -278,6 +278,11 @@ export type OpenFreeConversationRequest = {
     mode?: 'text' | 'web_search' | 'image';
 };
 
+export type OpenFreeConversationResponse = {
+    conversationId: string;
+    existing: boolean;
+};
+
 export type FreeConversationItem = {
     conversationId: string;
     platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
@@ -1284,7 +1289,7 @@ export type PlatformPublicControllerOpenFreeConversationData = {
 };
 
 export type PlatformPublicControllerOpenFreeConversationResponses = {
-    200: OpenConversationResponse;
+    200: OpenFreeConversationResponse;
 };
 
 export type PlatformPublicControllerOpenFreeConversationResponse = PlatformPublicControllerOpenFreeConversationResponses[keyof PlatformPublicControllerOpenFreeConversationResponses];
