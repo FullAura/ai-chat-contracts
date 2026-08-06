@@ -316,12 +316,6 @@ export type ListFreeConversationMessagesResponse = {
     hasMore: boolean;
 };
 
-export type SendFreeMessageRequest = {
-    fingerprintId: string;
-    message: string;
-    mode?: 'text' | 'web_search' | 'image';
-};
-
 export type SendFreeMessageResponse = {
     conversationId: string;
     /**
@@ -1356,7 +1350,11 @@ export type PlatformPublicControllerGetFreeConversationMessagesResponses = {
 export type PlatformPublicControllerGetFreeConversationMessagesResponse = PlatformPublicControllerGetFreeConversationMessagesResponses[keyof PlatformPublicControllerGetFreeConversationMessagesResponses];
 
 export type PlatformPublicControllerSendMessageData = {
-    body: SendFreeMessageRequest;
+    body: {
+        message: string;
+        mode?: 'text' | 'web_search' | 'image';
+        file?: Blob | File;
+    };
     path: {
         conversationId: string;
     };
