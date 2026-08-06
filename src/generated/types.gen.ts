@@ -340,6 +340,10 @@ export type StopFreeConversationRequest = {
     fingerprintId: string;
 };
 
+export type StopFreeConversationResponse = {
+    conversationId: string;
+};
+
 export type KonnektiveCampaignProduct = {
     productName: string;
     campaignProductId: string;
@@ -1398,7 +1402,7 @@ export type PlatformPublicControllerStopConversationData = {
 };
 
 export type PlatformPublicControllerStopConversationResponses = {
-    200: StopConversationResponse;
+    200: StopFreeConversationResponse;
 };
 
 export type PlatformPublicControllerStopConversationResponse = PlatformPublicControllerStopConversationResponses[keyof PlatformPublicControllerStopConversationResponses];
