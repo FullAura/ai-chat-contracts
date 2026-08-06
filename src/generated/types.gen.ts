@@ -336,6 +336,10 @@ export type LeaveFreeFeedbackResponse = {
     success: boolean;
 };
 
+export type StopFreeConversationRequest = {
+    fingerprintId: string;
+};
+
 export type KonnektiveCampaignProduct = {
     productName: string;
     campaignProductId: string;
@@ -1383,6 +1387,21 @@ export type PlatformPublicControllerLeaveFeedbackResponses = {
 };
 
 export type PlatformPublicControllerLeaveFeedbackResponse = PlatformPublicControllerLeaveFeedbackResponses[keyof PlatformPublicControllerLeaveFeedbackResponses];
+
+export type PlatformPublicControllerStopConversationData = {
+    body: StopFreeConversationRequest;
+    path: {
+        conversationId: string;
+    };
+    query?: never;
+    url: '/public-platform/conversations/{conversationId}/stop';
+};
+
+export type PlatformPublicControllerStopConversationResponses = {
+    200: StopConversationResponse;
+};
+
+export type PlatformPublicControllerStopConversationResponse = PlatformPublicControllerStopConversationResponses[keyof PlatformPublicControllerStopConversationResponses];
 
 export type PlatformPublicControllerGetConversationImageData = {
     body?: never;
