@@ -398,6 +398,7 @@ export type ProductItem = {
     campaignProductId: string;
     productId: string;
     price?: string;
+    upsellPrice?: string;
     nextBillingPrice?: string;
     billingCycleType?: 'ONE_TIME' | 'RECURRING' | 'MULTI_PAY';
     /**
@@ -494,7 +495,7 @@ export type CreateOrderRequest = {
     /**
      * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: '48' | '45' | '46';
+    productId: '48' | '45' | '46' | '49';
     sessionId?: string;
     cardNumber?: string;
     creditCard?: string;
@@ -584,9 +585,7 @@ export type ApplePayCreateOrderRequest = {
     /**
      * Opaque Apple Pay payment token
      */
-    applePayToken: {
-        [key: string]: unknown;
-    };
+    applePayToken: string;
     givenName?: string;
     familyName?: string;
     emailAddress?: string;
@@ -600,10 +599,10 @@ export type ApplePayCreateOrderRequest = {
     /**
      * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: '48' | '45' | '46';
+    productId: '48' | '45' | '46' | '49';
     sessionId?: string;
     /**
-     * Whether the buyer chose the split-payment plan
+     * Whether the buyer chose the split-payment plan, funnel -> true, public pages -> false
      */
     splitPayment?: boolean;
     conversationId?: string;
@@ -658,7 +657,7 @@ export type GooglePayCreateOrderRequest = {
     /**
      * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: '48' | '45' | '46';
+    productId: '48' | '45' | '46' | '49';
     sessionId?: string;
     conversationId?: string;
     utmSource?: string;
@@ -710,7 +709,7 @@ export type PaypalCreateOrderRequest = {
     /**
      * Campaign product id (plan). Resolved server-side to the real Konnektive product.
      */
-    productId: '48' | '45' | '46';
+    productId: '48' | '45' | '46' | '49';
     sessionId: string;
     conversationId?: string;
     utmSource?: string;
@@ -758,7 +757,7 @@ export type PaypalConfirmOrderRequest = {
     /**
      * Campaign product id (plan). PayPal always charges the non-split (full) offer.
      */
-    productId: '48' | '45' | '46';
+    productId: '48' | '45' | '46' | '49';
     sessionId?: string;
     couponCode?: string;
     affId?: string;
@@ -801,6 +800,26 @@ export type ThreedsCallbackRequest = {
     };
     orderId?: string;
     errorMsg?: string;
+};
+
+export type BackfillRequest = {
+    /**
+     * Shared admin password — must match the BACKFILL_PASSWORD env var.
+     */
+    password: string;
+};
+
+export type BackfillResponse = {
+    success: boolean;
+    email: string;
+    /**
+     * Number of Klaviyo events fired.
+     */
+    fired: number;
+    /**
+     * Human-readable list of the events fired.
+     */
+    events: Array<string>;
 };
 
 export type UserSettingsResponse = {
@@ -1650,6 +1669,19 @@ export type PaymentsWebhooksControllerHandleKonnektiveWebhookData = {
 export type PaymentsWebhooksControllerHandleKonnektiveWebhookResponses = {
     200: unknown;
 };
+
+export type AnalyticsPublicControllerBackfillData = {
+    body: BackfillRequest;
+    path?: never;
+    query?: never;
+    url: '/public-analytics/backfill';
+};
+
+export type AnalyticsPublicControllerBackfillResponses = {
+    200: BackfillResponse;
+};
+
+export type AnalyticsPublicControllerBackfillResponse = AnalyticsPublicControllerBackfillResponses[keyof AnalyticsPublicControllerBackfillResponses];
 
 export type UserPrivateControllerGetUserModelData = {
     body?: never;
