@@ -446,6 +446,48 @@ export type CancelRequestResponse = {
     success: boolean;
 };
 
+export type ResolveOfferRequest = {
+    /**
+     * Buyer country (resolves campaign + currency).
+     */
+    country?: string;
+    /**
+     * Plan id the client sends (e.g. 48/49/45/46) — mapped to an offer key.
+     */
+    productId?: string;
+    /**
+     * Offer key to resolve directly (e.g. trial_split_1, trial_full), bypassing planId.
+     */
+    productKey?: string;
+};
+
+export type ResolveOfferResponse = {
+    country: string;
+    campaignId: string;
+    /**
+     * The plan id passed in (if any).
+     */
+    planId?: {
+        [key: string]: unknown;
+    } | null;
+    /**
+     * The offer key resolved from planId/productKey.
+     */
+    offerKey?: {
+        [key: string]: unknown;
+    } | null;
+    /**
+     * Raw resolveOffer() result.
+     */
+    offer?: {
+        [key: string]: unknown;
+    } | null;
+    /**
+     * Present when no offer key could be determined.
+     */
+    error?: string;
+};
+
 export type ImportClickRequest = {
     conversationId?: string;
     country?: string;
@@ -509,6 +551,10 @@ export type CreateOrderRequest = {
     creditCvv?: string;
     redirectsTo?: string;
     errorRedirectsTo?: string;
+    /**
+     * Whether the buyer chose the split-payment plan, funnel -> true, public pages -> false
+     */
+    splitPayment?: boolean;
     conversationId?: string;
     utmSource?: string;
     affId?: string;
@@ -659,6 +705,10 @@ export type GooglePayCreateOrderRequest = {
      */
     productId: '48' | '45' | '46' | '49';
     sessionId?: string;
+    /**
+     * Whether the buyer chose the split-payment plan, funnel -> true, public pages -> false
+     */
+    splitPayment?: boolean;
     conversationId?: string;
     utmSource?: string;
     affId?: string;
@@ -1530,6 +1580,19 @@ export type PaymentsPublicControllerCancelRequestResponses = {
 };
 
 export type PaymentsPublicControllerCancelRequestResponse = PaymentsPublicControllerCancelRequestResponses[keyof PaymentsPublicControllerCancelRequestResponses];
+
+export type PaymentsPublicControllerResolveOfferData = {
+    body: ResolveOfferRequest;
+    path?: never;
+    query?: never;
+    url: '/public-payments/resolve-offer';
+};
+
+export type PaymentsPublicControllerResolveOfferResponses = {
+    200: ResolveOfferResponse;
+};
+
+export type PaymentsPublicControllerResolveOfferResponse = PaymentsPublicControllerResolveOfferResponses[keyof PaymentsPublicControllerResolveOfferResponses];
 
 export type PaymentsPublicControllerImportClickData = {
     body: ImportClickRequest;
