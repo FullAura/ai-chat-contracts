@@ -556,6 +556,7 @@ export type CreateOrderRequest = {
      */
     splitPayment?: boolean;
     conversationId?: string;
+    fingerprintId: string;
     utmSource?: string;
     affId?: string;
     c1?: string;
@@ -574,7 +575,6 @@ export type CreateOrderRequest = {
     browserData?: {
         [key: string]: unknown;
     };
-    fingerprintId: string;
 };
 
 export type OrderSession = {
@@ -652,6 +652,7 @@ export type ApplePayCreateOrderRequest = {
      */
     splitPayment?: boolean;
     conversationId?: string;
+    fingerprintId: string;
     utmSource?: string;
     affId?: string;
     c1?: string;
@@ -710,6 +711,7 @@ export type GooglePayCreateOrderRequest = {
      */
     splitPayment?: boolean;
     conversationId?: string;
+    fingerprintId: string;
     utmSource?: string;
     affId?: string;
     c1?: string;
@@ -762,6 +764,7 @@ export type PaypalCreateOrderRequest = {
     productId: '48' | '45' | '46' | '49';
     sessionId: string;
     conversationId?: string;
+    fingerprintId: string;
     utmSource?: string;
     affId?: string;
     c1?: string;
