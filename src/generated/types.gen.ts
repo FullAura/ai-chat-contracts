@@ -343,6 +343,7 @@ export type GetFreeConversationResponse = {
     model: string;
     platform: string;
     createdAt: string;
+    fixedMode: 'text' | 'image';
 };
 
 export type ListFreeConversationMessagesResponse = {
