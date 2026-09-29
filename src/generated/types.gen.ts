@@ -176,6 +176,7 @@ export type GetConversationResponse = {
     platform: string;
     createdAt: string;
     projectId: string | null;
+    fixedMode: 'text' | 'image';
 };
 
 export type UpdateConversationRequest = {
