@@ -306,6 +306,10 @@ export type OpenFreeConversationRequest = {
     message: string;
     mode?: 'text' | 'web_search' | 'image';
     /**
+     * Pins the conversation to one mode. When set, it overrides `mode` and image-intent detection.
+     */
+    fixedMode?: 'text' | 'image';
+    /**
      * Optional attachment (multipart only)
      */
     file?: Blob | File;
