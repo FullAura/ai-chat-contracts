@@ -152,6 +152,19 @@ export type SearchConversationsResponse = {
     conversations: Array<ConversationSearchItem>;
 };
 
+export type OpenConversationRequest = {
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    model: string;
+    message: string;
+    incognito: boolean;
+    mode?: 'text' | 'web_search' | 'image';
+    projectId?: string;
+    /**
+     * Optional attachment (multipart only)
+     */
+    file?: Blob | File;
+};
+
 export type OpenConversationResponse = {
     conversationId: string;
 };
@@ -214,6 +227,15 @@ export type ListConversationMessagesResponse = {
     hasMore: boolean;
 };
 
+export type SendMessageRequest = {
+    message: string;
+    mode?: 'text' | 'web_search' | 'image';
+    /**
+     * Optional attachment (multipart only)
+     */
+    file?: Blob | File;
+};
+
 export type SendMessageResponse = {
     conversationId: string;
     /**
@@ -269,6 +291,18 @@ export type TranscribeResponse = {
     text: string;
 };
 
+export type OpenFreeConversationRequest = {
+    fingerprintId: string;
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    model: string;
+    message: string;
+    mode?: 'text' | 'web_search' | 'image';
+    /**
+     * Optional attachment (multipart only)
+     */
+    file?: Blob | File;
+};
+
 export type OpenFreeConversationResponse = {
     conversationId: string;
     existing: boolean;
@@ -305,6 +339,16 @@ export type ListFreeConversationMessagesResponse = {
      */
     nextCursor?: string | null;
     hasMore: boolean;
+};
+
+export type SendFreeMessageRequest = {
+    fingerprintId: string;
+    message: string;
+    mode?: 'text' | 'web_search' | 'image';
+    /**
+     * Optional attachment (multipart only)
+     */
+    file?: Blob | File;
 };
 
 export type SendFreeMessageResponse = {
@@ -1160,15 +1204,7 @@ export type PlatformPrivateControllerSearchConversationResponses = {
 export type PlatformPrivateControllerSearchConversationResponse = PlatformPrivateControllerSearchConversationResponses[keyof PlatformPrivateControllerSearchConversationResponses];
 
 export type PlatformPrivateControllerOpenConversationData = {
-    body: {
-        platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
-        model: string;
-        message: string;
-        incognito: boolean;
-        mode?: 'text' | 'web_search' | 'image';
-        projectId?: string;
-        file?: Blob | File;
-    };
+    body: OpenConversationRequest;
     path?: never;
     query?: never;
     url: '/private-platform/conversations/open';
@@ -1247,11 +1283,7 @@ export type PlatformPrivateControllerGetConversationMessagesResponses = {
 export type PlatformPrivateControllerGetConversationMessagesResponse = PlatformPrivateControllerGetConversationMessagesResponses[keyof PlatformPrivateControllerGetConversationMessagesResponses];
 
 export type PlatformPrivateControllerSendMessageData = {
-    body: {
-        message: string;
-        mode?: 'text' | 'web_search' | 'image';
-        file?: Blob | File;
-    };
+    body: SendMessageRequest;
     path: {
         conversationId: string;
     };
@@ -1355,14 +1387,7 @@ export type PlatformPublicControllerTranscribeResponses = {
 export type PlatformPublicControllerTranscribeResponse = PlatformPublicControllerTranscribeResponses[keyof PlatformPublicControllerTranscribeResponses];
 
 export type PlatformPublicControllerOpenFreeConversationData = {
-    body: {
-        fingerprintId: string;
-        platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
-        model: string;
-        message: string;
-        mode?: 'text' | 'web_search' | 'image';
-        file?: Blob | File;
-    };
+    body: OpenFreeConversationRequest;
     path?: never;
     query?: never;
     url: '/public-platform/conversations/open';
@@ -1436,11 +1461,7 @@ export type PlatformPublicControllerGetFreeConversationMessagesResponses = {
 export type PlatformPublicControllerGetFreeConversationMessagesResponse = PlatformPublicControllerGetFreeConversationMessagesResponses[keyof PlatformPublicControllerGetFreeConversationMessagesResponses];
 
 export type PlatformPublicControllerSendMessageData = {
-    body: {
-        message: string;
-        mode?: 'text' | 'web_search' | 'image';
-        file?: Blob | File;
-    };
+    body: SendFreeMessageRequest;
     path: {
         conversationId: string;
     };
