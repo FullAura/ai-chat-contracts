@@ -152,15 +152,6 @@ export type SearchConversationsResponse = {
     conversations: Array<ConversationSearchItem>;
 };
 
-export type OpenConversationRequest = {
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
-    model: string;
-    message: string;
-    incognito: boolean;
-    mode?: 'text' | 'web_search' | 'image';
-    projectId?: string;
-};
-
 export type OpenConversationResponse = {
     conversationId: string;
 };
@@ -276,14 +267,6 @@ export type GetModelCapabilitiesResponse = {
 
 export type TranscribeResponse = {
     text: string;
-};
-
-export type OpenFreeConversationRequest = {
-    fingerprintId: string;
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
-    model: string;
-    message: string;
-    mode?: 'text' | 'web_search' | 'image';
 };
 
 export type OpenFreeConversationResponse = {
@@ -1177,7 +1160,15 @@ export type PlatformPrivateControllerSearchConversationResponses = {
 export type PlatformPrivateControllerSearchConversationResponse = PlatformPrivateControllerSearchConversationResponses[keyof PlatformPrivateControllerSearchConversationResponses];
 
 export type PlatformPrivateControllerOpenConversationData = {
-    body: OpenConversationRequest;
+    body: {
+        platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+        model: string;
+        message: string;
+        incognito: boolean;
+        mode?: 'text' | 'web_search' | 'image';
+        projectId?: string;
+        file?: Blob | File;
+    };
     path?: never;
     query?: never;
     url: '/private-platform/conversations/open';
@@ -1364,7 +1355,14 @@ export type PlatformPublicControllerTranscribeResponses = {
 export type PlatformPublicControllerTranscribeResponse = PlatformPublicControllerTranscribeResponses[keyof PlatformPublicControllerTranscribeResponses];
 
 export type PlatformPublicControllerOpenFreeConversationData = {
-    body: OpenFreeConversationRequest;
+    body: {
+        fingerprintId: string;
+        platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+        model: string;
+        message: string;
+        mode?: 'text' | 'web_search' | 'image';
+        file?: Blob | File;
+    };
     path?: never;
     query?: never;
     url: '/public-platform/conversations/open';
