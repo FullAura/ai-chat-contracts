@@ -180,7 +180,9 @@ export type GetConversationResponse = {
 };
 
 export type UpdateConversationRequest = {
-    title: string;
+    title?: string;
+    platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    model?: string;
 };
 
 export type UpdateConversationResponse = {
@@ -383,6 +385,22 @@ export type LeaveFreeFeedbackRequest = {
 
 export type LeaveFreeFeedbackResponse = {
     success: boolean;
+};
+
+export type UpdateFreeConversationRequest = {
+    fingerprintId: string;
+    title?: string;
+    platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    model?: string;
+};
+
+export type UpdateFreeConversationResponse = {
+    id: string;
+    title: string;
+    isProcessing: boolean;
+    model: string;
+    platform: string;
+    createdAt: string;
 };
 
 export type StopFreeConversationRequest = {
@@ -1466,6 +1484,21 @@ export type PlatformPublicControllerGetFreeConversationResponses = {
 };
 
 export type PlatformPublicControllerGetFreeConversationResponse = PlatformPublicControllerGetFreeConversationResponses[keyof PlatformPublicControllerGetFreeConversationResponses];
+
+export type PlatformPublicControllerUpdateConversationData = {
+    body: UpdateFreeConversationRequest;
+    path: {
+        conversationId: string;
+    };
+    query?: never;
+    url: '/public-platform/conversations/{conversationId}';
+};
+
+export type PlatformPublicControllerUpdateConversationResponses = {
+    200: UpdateFreeConversationResponse;
+};
+
+export type PlatformPublicControllerUpdateConversationResponse = PlatformPublicControllerUpdateConversationResponses[keyof PlatformPublicControllerUpdateConversationResponses];
 
 export type PlatformPublicControllerGetFreeConversationMessagesData = {
     body?: never;
