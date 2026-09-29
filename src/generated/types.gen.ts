@@ -216,6 +216,10 @@ export type MessageItem = {
      * The user's like/dislike on this assistant message, or null
      */
     feedback?: 'like' | 'dislike';
+    /**
+     * Content is withheld behind the paywall (e.g. a blurred teaser image) until unlocked
+     */
+    locked: boolean;
 };
 
 export type ListConversationMessagesResponse = {
@@ -256,6 +260,10 @@ export type LeaveFeedbackResponse = {
 };
 
 export type StopConversationResponse = {
+    conversationId: string;
+};
+
+export type UnlockConversationResponse = {
     conversationId: string;
 };
 
@@ -1327,6 +1335,21 @@ export type PlatformPrivateControllerStopConversationResponses = {
 };
 
 export type PlatformPrivateControllerStopConversationResponse = PlatformPrivateControllerStopConversationResponses[keyof PlatformPrivateControllerStopConversationResponses];
+
+export type PlatformPrivateControllerUnlockConversationData = {
+    body?: never;
+    path: {
+        conversationId: string;
+    };
+    query?: never;
+    url: '/private-platform/conversations/{conversationId}/unlock';
+};
+
+export type PlatformPrivateControllerUnlockConversationResponses = {
+    200: UnlockConversationResponse;
+};
+
+export type PlatformPrivateControllerUnlockConversationResponse = PlatformPrivateControllerUnlockConversationResponses[keyof PlatformPrivateControllerUnlockConversationResponses];
 
 export type PlatformPrivateControllerGetConversationImageData = {
     body?: never;
