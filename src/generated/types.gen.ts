@@ -246,10 +246,18 @@ export type StopConversationResponse = {
     conversationId: string;
 };
 
+export type ModelCapabilities = {
+    /**
+     * Can produce images — natively (e.g. Gemini image models, gpt-image-*) or, for OpenAI chat models, via the Responses `image_generation` tool.
+     */
+    imageGeneration: boolean;
+};
+
 export type PlatformModel = {
     platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
     model: string;
     description: string;
+    capabilities: ModelCapabilities;
 };
 
 export type GetModelsResponse = {
