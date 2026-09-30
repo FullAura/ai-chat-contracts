@@ -411,6 +411,26 @@ export type StopFreeConversationResponse = {
     conversationId: string;
 };
 
+export type UploadTempImageRequest = {
+    fingerprintId: string;
+    /**
+     * Image to upload (png, jpg or webp, max 5 MB)
+     */
+    file: Blob | File;
+};
+
+export type UploadTempImageResponse = {
+    /**
+     * Pass with the same fingerprintId to GET public-platform/uploads/:fileId
+     */
+    fileId: string;
+    contentType: string;
+    /**
+     * Stored size in bytes (after metadata is stripped)
+     */
+    size: number;
+};
+
 export type KonnektiveCampaignProduct = {
     productName: string;
     campaignProductId: string;
@@ -1583,6 +1603,40 @@ export type PlatformPublicControllerGetConversationImageData = {
 export type PlatformPublicControllerGetConversationImageResponses = {
     /**
      * Returns the generated image as image/jpeg
+     */
+    200: unknown;
+};
+
+export type PlatformPublicControllerUploadTempImageData = {
+    body: UploadTempImageRequest;
+    path?: never;
+    query?: never;
+    url: '/public-platform/uploads';
+};
+
+export type PlatformPublicControllerUploadTempImageResponses = {
+    200: UploadTempImageResponse;
+};
+
+export type PlatformPublicControllerUploadTempImageResponse = PlatformPublicControllerUploadTempImageResponses[keyof PlatformPublicControllerUploadTempImageResponses];
+
+export type PlatformPublicControllerGetTempImageData = {
+    body?: never;
+    path: {
+        fileId: string;
+    };
+    query: {
+        /**
+         * The fingerprintId the file was uploaded with
+         */
+        fingerprintId: string;
+    };
+    url: '/public-platform/uploads/{fileId}';
+};
+
+export type PlatformPublicControllerGetTempImageResponses = {
+    /**
+     * Returns the uploaded image with its original content type
      */
     200: unknown;
 };
