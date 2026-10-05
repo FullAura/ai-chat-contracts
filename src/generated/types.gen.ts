@@ -111,7 +111,7 @@ export type ListProjectsResponse = {
 export type ProjectConversationItem = {
     conversationId: string;
     title: string;
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model: string;
     createdAt: string;
     projectId: string | null;
@@ -125,7 +125,7 @@ export type ListProjectConversationsResponse = {
 export type ConversationItem = {
     conversationId: string;
     title: string;
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model: string;
     createdAt: string;
 };
@@ -142,7 +142,7 @@ export type ListConversationsResponse = {
 export type ConversationSearchItem = {
     conversationId: string;
     title: string;
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model: string;
     createdAt: string;
     content: string;
@@ -153,7 +153,7 @@ export type SearchConversationsResponse = {
 };
 
 export type OpenConversationRequest = {
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model: string;
     message: string;
     incognito: boolean;
@@ -181,7 +181,7 @@ export type GetConversationResponse = {
 
 export type UpdateConversationRequest = {
     title?: string;
-    platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model?: string;
 };
 
@@ -278,7 +278,7 @@ export type ModelCapabilities = {
 };
 
 export type PlatformModel = {
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model: string;
     description: string;
     capabilities: ModelCapabilities;
@@ -289,7 +289,7 @@ export type GetModelsResponse = {
 };
 
 export type GetModelCapabilitiesRequest = {
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model: string;
 };
 
@@ -304,7 +304,7 @@ export type TranscribeResponse = {
 
 export type OpenFreeConversationRequest = {
     fingerprintId: string;
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model: string;
     message: string;
     mode?: 'text' | 'web_search' | 'image';
@@ -325,7 +325,7 @@ export type OpenFreeConversationResponse = {
 
 export type FreeConversationItem = {
     conversationId: string;
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model: string;
     createdAt: string;
 };
@@ -390,7 +390,7 @@ export type LeaveFreeFeedbackResponse = {
 export type UpdateFreeConversationRequest = {
     fingerprintId: string;
     title?: string;
-    platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model?: string;
 };
 
@@ -963,13 +963,13 @@ export type BackfillResponse = {
 };
 
 export type UserSettingsResponse = {
-    platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform?: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model?: string | null;
     tier: 'free' | 'premium';
 };
 
 export type SelectUserSettingsRequest = {
-    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+    platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
     model: string;
 };
 
@@ -1220,7 +1220,7 @@ export type PlatformPrivateControllerListConversationsData = {
     body?: never;
     path?: never;
     query: {
-        platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+        platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
         model: string;
         limit?: number;
         /**
@@ -1471,7 +1471,7 @@ export type PlatformPublicControllerListFreeConversationsData = {
     path?: never;
     query: {
         fingerprintId: string;
-        platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek';
+        platform: 'openai' | 'grok' | 'gemini' | 'claude' | 'deepseek' | 'kimi';
         model: string;
         limit?: number;
         /**
