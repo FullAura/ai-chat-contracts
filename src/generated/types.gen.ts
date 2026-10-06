@@ -158,6 +158,10 @@ export type OpenConversationRequest = {
     message: string;
     incognito: boolean;
     mode?: 'text' | 'web_search' | 'image';
+    /**
+     * Pins the conversation to one mode. When set, it overrides `mode` and image-intent detection.
+     */
+    fixedMode?: 'text' | 'image';
     projectId?: string;
     /**
      * Optional attachment (multipart only)
