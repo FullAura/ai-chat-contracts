@@ -286,6 +286,10 @@ export type PlatformModel = {
     model: string;
     description: string;
     capabilities: ModelCapabilities;
+    /**
+     * Newest generation of its model family. Omitted when false.
+     */
+    isLatest?: boolean;
 };
 
 export type GetModelsResponse = {
@@ -1353,6 +1357,22 @@ export type PlatformPrivateControllerSendMessageResponses = {
 
 export type PlatformPrivateControllerSendMessageResponse = PlatformPrivateControllerSendMessageResponses[keyof PlatformPrivateControllerSendMessageResponses];
 
+export type PlatformPrivateControllerStreamConversationData = {
+    body?: never;
+    path: {
+        conversationId: string;
+    };
+    query?: never;
+    url: '/private-platform/conversations/{conversationId}/stream';
+};
+
+export type PlatformPrivateControllerStreamConversationResponses = {
+    /**
+     * SSE: `delta` events ({ text, seq }) then one `done` event
+     */
+    200: unknown;
+};
+
 export type PlatformPrivateControllerLeaveFeedbackData = {
     body: LeaveFeedbackRequest;
     path: {
@@ -1560,6 +1580,24 @@ export type PlatformPublicControllerSendMessageResponses = {
 };
 
 export type PlatformPublicControllerSendMessageResponse = PlatformPublicControllerSendMessageResponses[keyof PlatformPublicControllerSendMessageResponses];
+
+export type PlatformPublicControllerStreamFreeConversationData = {
+    body?: never;
+    path: {
+        conversationId: string;
+    };
+    query: {
+        fingerprintId: string;
+    };
+    url: '/public-platform/conversations/{conversationId}/stream';
+};
+
+export type PlatformPublicControllerStreamFreeConversationResponses = {
+    /**
+     * SSE: `delta` events ({ text, seq }) then one `done` event
+     */
+    200: unknown;
+};
 
 export type PlatformPublicControllerLeaveFeedbackData = {
     body: LeaveFreeFeedbackRequest;
