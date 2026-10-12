@@ -162,6 +162,14 @@ export type OpenConversationRequest = {
      * Pins the conversation to one mode. When set, it overrides `mode` and image-intent detection.
      */
     fixedMode?: 'text' | 'image';
+    /**
+     * Image mode only. none = None, realistic = Realistic, cartoon = Cartoon, '3d_render' = 3D Render, anime = Anime, digital = Digital, abstract = Abstract.
+     */
+    imageStyle?: 'none' | 'realistic' | 'cartoon' | '3d_render' | 'anime' | 'digital' | 'abstract';
+    /**
+     * Image mode only. '1:1' = Square, '4:3' = Standard, '3:4' = Portrait, '16:9' = Widescreen, '9:16' = Mobile, '21:9' = Ultrawide.
+     */
+    imageRatio?: '1:1' | '4:3' | '3:4' | '16:9' | '9:16' | '21:9';
     projectId?: string;
     /**
      * Optional attachment (multipart only)
